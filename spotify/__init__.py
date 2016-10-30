@@ -80,6 +80,20 @@ _setup_logging()
 
 from spotify._spotify import ffi, lib  # noqa
 
+def ffi_callback_win(type_str):
+    """
+    ffi.callback decorator replacement that will add __stdcall if it
+    discovers that we are on Windows. All Spotify callbacks are
+    expected to be __stdcall on Windows.
+
+    However, the Windows check has been optimized away (the author
+    looked under their laptop and it said "Windows" there), so it will
+    always do that, right now.
+    """
+    p = type_str.find('(')
+    type_str = '{} __stdcall {}'.format(type_str[:p], type_str[p:])
+    return ffi.callback(type_str)
+
 lib = _SerializedLib(lib)
 
 from spotify.album import *  # noqa

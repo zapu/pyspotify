@@ -4,7 +4,7 @@ import logging
 import threading
 
 import spotify
-from spotify import ffi, lib, serialized, utils
+from spotify import ffi, lib, serialized, utils, ffi_callback_win
 
 
 __all__ = [
@@ -85,7 +85,7 @@ class InboxPostResult(object):
         return spotify.ErrorType(lib.sp_inbox_error(self._sp_inbox))
 
 
-@ffi.callback('void(sp_inbox *, void *)')
+@ffi_callback_win('void(sp_inbox *, void *)')
 @serialized
 def _inboxpost_complete_callback(sp_inbox, handle):
     logger.debug('inboxpost_complete_callback called')

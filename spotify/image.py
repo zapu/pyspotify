@@ -5,7 +5,7 @@ import logging
 import threading
 
 import spotify
-from spotify import ffi, lib, serialized, utils
+from spotify import ffi, lib, serialized, utils, ffi_callback_win
 
 
 __all__ = [
@@ -154,7 +154,7 @@ class Image(object):
             add_ref=False)
 
 
-@ffi.callback('void(sp_image *, void *)')
+@ffi_callback_win('void(sp_image *, void *)')
 @serialized
 def _image_load_callback(sp_image, handle):
     logger.debug('image_load_callback called')

@@ -4,7 +4,7 @@ import collections
 import logging
 
 import spotify
-from spotify import ffi, lib, serialized, utils
+from spotify import ffi, lib, serialized, utils, ffi_callback_win
 
 
 __all__ = [
@@ -589,7 +589,7 @@ class _PlaylistCallbacks(object):
     # callbacks.
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlist *playlist, sp_track **tracks, int num_tracks, '
         'int position, void *userdata)')
     def tracks_added(sp_playlist, sp_tracks, num_tracks, index, userdata):
@@ -604,7 +604,7 @@ class _PlaylistCallbacks(object):
             PlaylistEvent.TRACKS_ADDED, playlist, tracks, int(index))
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlist *playlist, int *tracks, int num_tracks, '
         'void *userdata)')
     def tracks_removed(sp_playlist, tracks, num_tracks, userdata):
@@ -615,7 +615,7 @@ class _PlaylistCallbacks(object):
         playlist.emit(PlaylistEvent.TRACKS_REMOVED, playlist, tracks)
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlist *playlist, int *tracks, int num_tracks, '
         'int position, void *userdata)')
     def tracks_moved(
@@ -628,7 +628,7 @@ class _PlaylistCallbacks(object):
             PlaylistEvent.TRACKS_MOVED, playlist, old_indexes, int(new_index))
 
     @staticmethod
-    @ffi.callback('void(sp_playlist *playlist, void *userdata)')
+    @ffi_callback_win('void(sp_playlist *playlist, void *userdata)')
     def playlist_renamed(sp_playlist, userdata):
         logger.debug('Playlist renamed')
         playlist = Playlist._cached(
@@ -636,7 +636,7 @@ class _PlaylistCallbacks(object):
         playlist.emit(PlaylistEvent.PLAYLIST_RENAMED, playlist)
 
     @staticmethod
-    @ffi.callback('void(sp_playlist *playlist, void *userdata)')
+    @ffi_callback_win('void(sp_playlist *playlist, void *userdata)')
     def playlist_state_changed(sp_playlist, userdata):
         logger.debug('Playlist state changed')
         playlist = Playlist._cached(
@@ -644,7 +644,7 @@ class _PlaylistCallbacks(object):
         playlist.emit(PlaylistEvent.PLAYLIST_STATE_CHANGED, playlist)
 
     @staticmethod
-    @ffi.callback('void(sp_playlist *playlist, bool done, void *userdata)')
+    @ffi_callback_win('void(sp_playlist *playlist, bool done, void *userdata)')
     def playlist_update_in_progress(sp_playlist, done, userdata):
         logger.debug('Playlist update in progress')
         playlist = Playlist._cached(
@@ -653,7 +653,7 @@ class _PlaylistCallbacks(object):
             PlaylistEvent.PLAYLIST_UPDATE_IN_PROGRESS, playlist, bool(done))
 
     @staticmethod
-    @ffi.callback('void(sp_playlist *playlist, void *userdata)')
+    @ffi_callback_win('void(sp_playlist *playlist, void *userdata)')
     def playlist_metadata_updated(sp_playlist, userdata):
         logger.debug('Playlist metadata updated')
         playlist = Playlist._cached(
@@ -661,7 +661,7 @@ class _PlaylistCallbacks(object):
         playlist.emit(PlaylistEvent.PLAYLIST_METADATA_UPDATED, playlist)
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlist *playlist, int position, sp_user *user, '
         'int when, void *userdata)')
     def track_created_changed(sp_playlist, index, sp_user, when, userdata):
@@ -675,7 +675,7 @@ class _PlaylistCallbacks(object):
             playlist, int(index), user, int(when))
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlist *playlist, int position, bool seen, void *userdata)')
     def track_seen_changed(sp_playlist, index, seen, userdata):
         logger.debug('Playlist track seen changed')
@@ -686,7 +686,7 @@ class _PlaylistCallbacks(object):
             playlist, int(index), bool(seen))
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlist *playlist, char *desc, void *userdata)')
     def description_changed(sp_playlist, desc, userdata):
         logger.debug('Playlist description changed')
@@ -697,7 +697,7 @@ class _PlaylistCallbacks(object):
             playlist, utils.to_unicode(desc))
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlist *playlist, byte *image, void *userdata)')
     def image_changed(sp_playlist, image_id, userdata):
         logger.debug('Playlist image changed')
@@ -710,7 +710,7 @@ class _PlaylistCallbacks(object):
         playlist.emit(PlaylistEvent.IMAGE_CHANGED, playlist, image)
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlist *playlist, int position, char *message, '
         'void *userdata)')
     def track_message_changed(sp_playlist, index, message, userdata):
@@ -722,7 +722,7 @@ class _PlaylistCallbacks(object):
             playlist, int(index), utils.to_unicode(message))
 
     @staticmethod
-    @ffi.callback('void(sp_playlist *playlist, void *userdata)')
+    @ffi_callback_win('void(sp_playlist *playlist, void *userdata)')
     def subscribers_changed(sp_playlist, userdata):
         logger.debug('Playlist subscribers changed')
         playlist = Playlist._cached(

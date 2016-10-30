@@ -4,7 +4,7 @@ import logging
 import threading
 
 import spotify
-from spotify import ffi, lib, serialized, utils
+from spotify import ffi, lib, serialized, utils, ffi_callback_win
 
 
 __all__ = [
@@ -412,7 +412,7 @@ class ArtistBrowser(object):
             lib.sp_artistbrowse_biography(self._sp_artistbrowse))
 
 
-@ffi.callback('void(sp_artistbrowse *, void *)')
+@ffi_callback_win('void(sp_artistbrowse *, void *)')
 @serialized
 def _artistbrowse_complete_callback(sp_artistbrowse, handle):
     logger.debug('artistbrowse_complete_callback called')

@@ -1,3 +1,15 @@
+****************************
+Experimental Windows support
+****************************
+
+Author of this fork had some (limited) success in running this on Windows, with libspotify.dll. *Microsoft Visual Studio 10.0* compiler to build the compiled Python module.
+
+New `api.processed.h` had to be generated for the build, because on Windows, Spotify wants __stdcall callbacks. `cl /EP` was used to preprocess `api.h`, and then empty lines were removed, as well as everything until `typedef uint64_t sp_uint64;` (included headers and other things).
+
+Also, because of the __stdcalls, `ffi_callback_win` decorator was introduced in `__init__py`, that will return `ffi.callback` decorator but with __stdcall added to the type string. Every callback function definition that was decorated with `ffi.callback` is now decorated with `ffi_callback_win`.
+
+To build the native lib, `libspotify/api.h` has to be somewhere that the compiler can find it, as well as `libspotify.lib` but named as `spotify.lib`. Then, when it successfully build, copy `libspotify.dll` over to the output directory (where the `_spotify.pyd` is).
+
 *********
 pyspotify
 *********

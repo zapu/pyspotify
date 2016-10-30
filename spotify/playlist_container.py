@@ -6,7 +6,7 @@ import pprint
 import re
 
 import spotify
-from spotify import ffi, lib, serialized, utils
+from spotify import ffi, lib, serialized, utils, ffi_callback_win
 
 
 __all__ = [
@@ -503,7 +503,7 @@ class _PlaylistContainerCallbacks(object):
     # callbacks.
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlistcontainer *pc, sp_playlist *playlist, int position, '
         'void *userdata)')
     def playlist_added(sp_playlistcontainer, sp_playlist, index, userdata):
@@ -517,7 +517,7 @@ class _PlaylistContainerCallbacks(object):
             playlist_container, playlist, index)
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlistcontainer *pc, sp_playlist *playlist, int position, '
         'void *userdata)')
     def playlist_removed(
@@ -532,7 +532,7 @@ class _PlaylistContainerCallbacks(object):
             playlist_container, playlist, index)
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlistcontainer *pc, sp_playlist *playlist, int position, '
         'int new_position, void *userdata)')
     def playlist_moved(
@@ -549,7 +549,7 @@ class _PlaylistContainerCallbacks(object):
             playlist_container, playlist, old_index, new_index)
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'void(sp_playlistcontainer *pc, void *userdata)')
     def container_loaded(sp_playlistcontainer, userdata):
         logger.debug('Playlist container loaded')

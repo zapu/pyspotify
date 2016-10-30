@@ -4,7 +4,7 @@ import logging
 import threading
 
 import spotify
-from spotify import ffi, lib, serialized, utils
+from spotify import ffi, lib, serialized, utils, ffi_callback_win
 
 
 __all__ = [
@@ -324,7 +324,7 @@ class Search(object):
             add_ref=False)
 
 
-@ffi.callback('void(sp_search *, void *)')
+@ffi_callback_win('void(sp_search *, void *)')
 @serialized
 def _search_complete_callback(sp_search, handle):
     logger.debug('search_complete_callback called')

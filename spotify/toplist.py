@@ -4,7 +4,7 @@ import logging
 import threading
 
 import spotify
-from spotify import ffi, lib, serialized, utils
+from spotify import ffi, lib, serialized, utils, ffi_callback_win
 
 
 __all__ = [
@@ -211,7 +211,7 @@ class Toplist(object):
             getitem_func=get_artist)
 
 
-@ffi.callback('void(sp_toplistbrowse *, void *)')
+@ffi_callback_win('void(sp_toplistbrowse *, void *)')
 @serialized
 def _toplistbrowse_complete_callback(sp_toplistbrowse, handle):
     logger.debug('toplistbrowse_complete_callback called')

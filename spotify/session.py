@@ -7,7 +7,7 @@ import spotify
 import spotify.connection
 import spotify.player
 import spotify.social
-from spotify import ffi, lib, serialized, utils
+from spotify import ffi, lib, serialized, utils, ffi_callback_win
 
 
 __all__ = [
@@ -913,7 +913,7 @@ class _SessionCallbacks(object):
     # callbacks.
 
     @staticmethod
-    @ffi.callback('void(sp_session *, sp_error)')
+    @ffi_callback_win('void(sp_session *, sp_error)')
     def logged_in(sp_session, sp_error):
         if not spotify._session_instance:
             return
@@ -926,7 +926,7 @@ class _SessionCallbacks(object):
             SessionEvent.LOGGED_IN, spotify._session_instance, error_type)
 
     @staticmethod
-    @ffi.callback('void(sp_session *)')
+    @ffi_callback_win('void(sp_session *)')
     def logged_out(sp_session):
         if not spotify._session_instance:
             return
@@ -935,7 +935,7 @@ class _SessionCallbacks(object):
             SessionEvent.LOGGED_OUT, spotify._session_instance)
 
     @staticmethod
-    @ffi.callback('void(sp_session *)')
+    @ffi_callback_win('void(sp_session *)')
     def metadata_updated(sp_session):
         if not spotify._session_instance:
             return
@@ -944,7 +944,7 @@ class _SessionCallbacks(object):
             SessionEvent.METADATA_UPDATED, spotify._session_instance)
 
     @staticmethod
-    @ffi.callback('void(sp_session *, sp_error)')
+    @ffi_callback_win('void(sp_session *, sp_error)')
     def connection_error(sp_session, sp_error):
         if not spotify._session_instance:
             return
@@ -955,7 +955,7 @@ class _SessionCallbacks(object):
             spotify._session_instance, error_type)
 
     @staticmethod
-    @ffi.callback('void(sp_session *, const char *)')
+    @ffi_callback_win('void(sp_session *, const char *)')
     def message_to_user(sp_session, data):
         if not spotify._session_instance:
             return
@@ -965,7 +965,7 @@ class _SessionCallbacks(object):
             SessionEvent.MESSAGE_TO_USER, spotify._session_instance, data)
 
     @staticmethod
-    @ffi.callback('void(sp_session *)')
+    @ffi_callback_win('void(sp_session *)')
     def notify_main_thread(sp_session):
         if not spotify._session_instance:
             return
@@ -974,7 +974,7 @@ class _SessionCallbacks(object):
             SessionEvent.NOTIFY_MAIN_THREAD, spotify._session_instance)
 
     @staticmethod
-    @ffi.callback(
+    @ffi_callback_win(
         'int(sp_session *, const sp_audioformat *, const void *, int)')
     def music_delivery(sp_session, sp_audioformat, frames, num_frames):
         if not spotify._session_instance:
@@ -996,7 +996,7 @@ class _SessionCallbacks(object):
         return num_frames_consumed
 
     @staticmethod
-    @ffi.callback('void(sp_session *)')
+    @ffi_callback_win('void(sp_session *)')
     def play_token_lost(sp_session):
         if not spotify._session_instance:
             return
@@ -1005,7 +1005,7 @@ class _SessionCallbacks(object):
             SessionEvent.PLAY_TOKEN_LOST, spotify._session_instance)
 
     @staticmethod
-    @ffi.callback('void(sp_session *, const char *)')
+    @ffi_callback_win('void(sp_session *, const char *)')
     def log_message(sp_session, data):
         if not spotify._session_instance:
             return
@@ -1015,7 +1015,7 @@ class _SessionCallbacks(object):
             SessionEvent.LOG_MESSAGE, spotify._session_instance, data)
 
     @staticmethod
-    @ffi.callback('void(sp_session *)')
+    @ffi_callback_win('void(sp_session *)')
     def end_of_track(sp_session):
         if not spotify._session_instance:
             return
@@ -1024,7 +1024,7 @@ class _SessionCallbacks(object):
             SessionEvent.END_OF_TRACK, spotify._session_instance)
 
     @staticmethod
-    @ffi.callback('void(sp_session *, sp_error)')
+    @ffi_callback_win('void(sp_session *, sp_error)')
     def streaming_error(sp_session, sp_error):
         if not spotify._session_instance:
             return
@@ -1035,7 +1035,7 @@ class _SessionCallbacks(object):
             spotify._session_instance, error_type)
 
     @staticmethod
-    @ffi.callback('void(sp_session *)')
+    @ffi_callback_win('void(sp_session *)')
     def user_info_updated(sp_session):
         if not spotify._session_instance:
             return
@@ -1044,7 +1044,7 @@ class _SessionCallbacks(object):
             SessionEvent.USER_INFO_UPDATED, spotify._session_instance)
 
     @staticmethod
-    @ffi.callback('void(sp_session *)')
+    @ffi_callback_win('void(sp_session *)')
     def start_playback(sp_session):
         if not spotify._session_instance:
             return
@@ -1053,7 +1053,7 @@ class _SessionCallbacks(object):
             SessionEvent.START_PLAYBACK, spotify._session_instance)
 
     @staticmethod
-    @ffi.callback('void(sp_session *)')
+    @ffi_callback_win('void(sp_session *)')
     def stop_playback(sp_session):
         if not spotify._session_instance:
             return
@@ -1062,7 +1062,7 @@ class _SessionCallbacks(object):
             SessionEvent.STOP_PLAYBACK, spotify._session_instance)
 
     @staticmethod
-    @ffi.callback('void(sp_session *, sp_audio_buffer_stats *)')
+    @ffi_callback_win('void(sp_session *, sp_audio_buffer_stats *)')
     def get_audio_buffer_stats(sp_session, sp_audio_buffer_stats):
         if not spotify._session_instance:
             return
@@ -1077,7 +1077,7 @@ class _SessionCallbacks(object):
         sp_audio_buffer_stats.stutter = stats.stutter
 
     @staticmethod
-    @ffi.callback('void(sp_session *)')
+    @ffi_callback_win('void(sp_session *)')
     def offline_status_updated(sp_session):
         if not spotify._session_instance:
             return
@@ -1086,7 +1086,7 @@ class _SessionCallbacks(object):
             SessionEvent.OFFLINE_STATUS_UPDATED, spotify._session_instance)
 
     @staticmethod
-    @ffi.callback('void(sp_session *, const char *)')
+    @ffi_callback_win('void(sp_session *, const char *)')
     def credentials_blob_updated(sp_session, data):
         if not spotify._session_instance:
             return
@@ -1097,7 +1097,7 @@ class _SessionCallbacks(object):
             spotify._session_instance, data)
 
     @staticmethod
-    @ffi.callback('void(sp_session *)')
+    @ffi_callback_win('void(sp_session *)')
     def connection_state_updated(sp_session):
         if not spotify._session_instance:
             return
@@ -1107,7 +1107,7 @@ class _SessionCallbacks(object):
             spotify._session_instance)
 
     @staticmethod
-    @ffi.callback('void(sp_session *, sp_error)')
+    @ffi_callback_win('void(sp_session *, sp_error)')
     def scrobble_error(sp_session, sp_error):
         if not spotify._session_instance:
             return
@@ -1118,7 +1118,7 @@ class _SessionCallbacks(object):
             spotify._session_instance, error_type)
 
     @staticmethod
-    @ffi.callback('void(sp_session *, bool)')
+    @ffi_callback_win('void (sp_session *, bool)')
     def private_session_mode_changed(sp_session, is_private):
         if not spotify._session_instance:
             return

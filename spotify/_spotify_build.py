@@ -10,7 +10,8 @@ if StrictVersion(cffi.__version__) < StrictVersion('1.0.0'):
         'pyspotify requires cffi >= 1.0, but found %s' % cffi.__version__)
 
 
-header_file = os.path.join(os.path.dirname(__file__), 'api.processed.h')
+#header_file = os.path.join(os.path.dirname(__file__), 'api.processed.h')
+header_file = os.path.join(os.path.dirname(__file__), 'api.processed.win.h')
 
 with open(header_file) as fh:
     header = fh.read()
